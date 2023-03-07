@@ -1,0 +1,58 @@
+@use "../../../styles/mixins.scss";
+@use "../../../styles/variables.scss";
+
+// WRAPPER SECTION
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+}
+
+// HERO SECTION
+.mainSection {
+  height: 100vh;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  flex-shrink: 1;
+}
+
+.titleSection {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 1;
+  margin-bottom: 13px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: variables.$font-bold;
+}
+
+.transactions {
+  background-color: variables.$primary-color;
+  border-radius: 25px;
+  display: flex;
+  flex-grow: 1;
+  flex-basis: 80%;
+  flex-shrink: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
+}
+
+.transactionsList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
+
+.filter {
+  display: flex;
+  flex-grow: 0;
+  flex-basis: 10%;
+}

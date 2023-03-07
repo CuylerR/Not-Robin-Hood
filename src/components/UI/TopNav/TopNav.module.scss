@@ -1,0 +1,47 @@
+@use "../../../styles/variables.scss";
+@use "../../../styles/mixins.scss";
+
+.container {
+  height:fit-content;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search {
+  display: flex;
+  flex-basis: 40%;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.cta {
+  display: flex;
+  flex-basis: 40%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  gap: 1rem;
+}
+
+.profile {
+  display: flex;
+  flex-basis: 20%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  gap: 2rem;
+  justify-content: flex-end;
+  .notifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: variables.$golden;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
+  }
+}

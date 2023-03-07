@@ -1,0 +1,58 @@
+@use "../../../styles/variables.scss";
+@use "../../../styles/mixins.scss";
+
+.stockSection {
+  padding-top: 2rem;
+  margin-left: 2rem;
+}
+
+.stockBody {
+  display: flex;
+  align-items: center;
+  width: 1450px;
+  height: 89px;
+  left: 470px;
+  top: 274px;
+  background: #d5e3e1;
+  border-radius: 25px;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.stockInfoContent {
+  top: 100%;
+  left: 50%;
+  transform: translateX(8%);
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.stockInfoText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 615px;
+  height: 185px;
+  left: 1003px;
+  top: 539px;
+  border-radius: 25px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.buyButton {
+  width: 150px;
+  height: 54px;
+  left: 1693px;
+  top: 291px;
+  background: #ffffff;
+}
+

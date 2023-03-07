@@ -1,0 +1,113 @@
+// WRAPPER SECTION
+
+@use "../../../styles/mixins.scss";
+@use "../../../styles/variables.scss";
+
+.tabs {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 25px 25px 0 0;
+    background-color: variables.$light-yellow;
+    padding: 20px;
+    height: 10%;
+    min-height: 10%;
+    width: 30%;
+}
+
+.tanSquare {
+    display: flex;
+    flex-grow: 1;
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 0 25px 25px 25px;
+    background-color: variables.$light-yellow;
+    padding: 20px;
+    overflow-y: auto;
+
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    flex: 1;
+}
+
+
+
+.totalPortfolio {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 60px 0;
+}
+
+.totalPortfolioTitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 38px;
+    color: variables.$secondary-color;
+    margin-bottom: 20px;
+}
+
+.totalPortfolioValue {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+
+.sectionTitle {
+    font-weight: 700;
+    font-size: 2rem;
+    color: variables.$secondary-color;
+    margin-bottom: 30px;
+    flex: 1 1 50%
+}
+
+.sectionPercent {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 39px;
+    flex: 1 1 25%;
+    color: #32543A;
+}
+
+.sectionValue {
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 39px;
+    flex: 1 1 25%;
+}
+
+#stockValue{
+    color: variables.$golden;
+}
+
+#buyingPowerValue{
+    color: #2AB795;
+}
+
+.stocks {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.buyingPower {
+    display: flex;
+    justify-content: space-between;
+}
+
+.doughnutGraph {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.line{
+    border-top: 1px solid #000;
+    width: 90%; 
+    margin-bottom: 60px;
+}

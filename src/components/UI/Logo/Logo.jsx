@@ -5,8 +5,8 @@ import styles from "./Logo.module.scss";
 const Logo = ({ children }) => {
   return (
     <>
-      <Link className={styles.logo}>
-        <h1>RobinHood</h1>
+      <Link to="/" className={styles.logo}>
+        <h1>HobinRood</h1>
         <h2>.</h2>
       </Link>
     </>

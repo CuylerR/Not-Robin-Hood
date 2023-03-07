@@ -1,50 +1,34 @@
-//* ======================== Flexbox Mixin ========================
+@use "../styles//variables.scss";
 
-@mixin flexbox(
-  $display: flex,
-  $direction: row,
-  $placeContent: null,
-  $placeItems: null,
-  $wrap: nowrap,
-  $shrink: 0,
-  $grow: 0,
-  $flex-basis: 0%,
-  $alignContent: null,
-  $justifyContent: null,
-  $alignItems: null,
-  $justifyItems: null
-) {
-  display: $display;
-  flex-direction: $direction;
+@mixin boxShadow() {
+  box-shadow: 3px 12px 18px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 3px 12px 18px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 12px 18px 0px rgba(0, 0, 0, 0.75);
+}
 
-  @if $placeContent == null {
-    @if $alignContent {
-      align-content: $alignContent;
-    }
-    @if $justifyContent {
-      justify-content: $justifyContent;
-    }
-  } @else {
-    place-content: $placeContent;
+//* ======================== Button Mixin ========================
+
+@mixin button {
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: variables.$font-regular;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.17);
+  border-radius: 25px;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background-color: variables.$secondary-color;
   }
-
-  @if $placeItems == null {
-    @if $alignItems {
-      align-items: $alignItems;
-    }
-    @if $justifyItems {
-      justify-items: $justifyItems;
-    }
-  } @else {
-    place-items: $placeItems;
-  }
-  flex-wrap: $wrap;
-  flex-shrink: $shrink;
-  flex-grow: $grow;
-  flex-basis: $flex-basis;
 }
 
 //* ======================== Breakpoints Mixin ========================
+
+//? MIN-WIDTH
 
 //! ======= 640px, 1024px, 1400px ========
 $breakpoints-up: (
@@ -53,18 +37,25 @@ $breakpoints-up: (
   "xlarge": "87.5em",
 );
 
-//! ===== 639px, 1023px, 1399px ======
+//? MAX-WIDTH
+
+//! ===== 639px, 1023px, 1399px, 1430px ======
 $breakpoints-down: (
   "small": "39.9375em",
   "medium": "63.9375em",
   "large": "75.4375em",
+  "xlarge": "89.375em",
 );
+
+//?  apply breakpoint for an element with min-width, where size mentioned about in the MIN-WIDTH COMMENT
 
 @mixin breakpoint-up($size) {
   @media (min-width: map-get($breakpoints-up, $size)) {
     @content;
   }
 }
+
+//?  apply breakpoint for an element with max-width, where size mentioned about in the MIN-WIDTH COMMENT
 
 @mixin breakpoint-down($size) {
   @media (max-width: map-get($breakpoints-down, $size)) {

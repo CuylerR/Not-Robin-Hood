@@ -1,0 +1,403 @@
+@use "../../../styles/mixins.scss";
+@use "../../../styles//variables.scss";
+
+.logo {
+  display: flex;
+  @include mixins.breakpoint-down(medium) {
+    justify-content: center;
+  }
+  width: calc(100% - 13rem);
+  @include mixins.breakpoint-down(small) {
+    height: 3rem;
+  }
+}
+
+.closeSettingsBtn {
+  position: absolute;
+  top: 5%;
+  right: 2.5%;
+  @include mixins.breakpoint-down(small) {
+    right: 5%;
+    top: 2.5%;
+  }
+}
+.stockCloseButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: variables.$secondary-color;
+  color: #fff;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 24px;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    background-color: variables.$golden;
+    outline: 1.5px solid rgb(87, 87, 87);
+    transition: 0.15s ease-in-out;
+  }
+}
+
+.image {
+  //Bull in the background
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 85vh;
+  //margin-left: -35px;
+  opacity: calc(4%);
+  background-size: cover;
+  height: 115vh;
+  background-image: url(../../../assets/bull.png);
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.headerSection {
+  //Contains featured bar, navigation bar
+
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  width: calc(100% - 13em);
+  @include mixins.breakpoint-down(small) {
+    width: 100%;
+  }
+  @include mixins.breakpoint-down(medium) {
+    width: 100%;
+  }
+
+  .settingsNavBar {
+    display: flex;
+    //margin-right: 25px;
+    margin-bottom: 40px;
+    gap: 25px;
+    width: 100%;
+    background-color: transparent;
+    @include mixins.breakpoint-down(large) {
+      margin-bottom: 0px;
+    }
+  }
+  .featured {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 1rem 0rem;
+    @include mixins.breakpoint-down(medium) {
+      text-align: center;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #d5e3e1;
+  height: 100vh;
+  padding: 3rem 8.125rem;
+  @include mixins.breakpoint-down(small) {
+    padding: 3rem;
+  }
+  padding-top: 0rem;
+  position: relative;
+
+  .saveChanges {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    @include mixins.breakpoint-down(large) {
+      display: none;
+    }
+    @include mixins.breakpoint-down(medium) {
+      display: none;
+    }
+  }
+
+  .logoutButton {
+    //Logout button
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: variables.$secondary-color;
+    border-radius: 25px;
+
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    img {
+      width: 2rem;
+    }
+
+    &:hover {
+      background-color: #fff;
+      border-radius: 15px;
+    }
+  }
+}
+
+.settings {
+  //Modifies the container when Settings is active
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.notifications,
+.accountInfo {
+  //Modifies the container when Notifications/Account Info is active
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  @include mixins.breakpoint-down(small) {
+    flex-direction: column;
+    h2 {
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+.notifications {
+  //Modifies certain elements when Notifications is active
+
+  input[type=text], select //Modifies input boxes in the Notifications tab
+  {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+    @include mixins.breakpoint-down(small) {
+      width: 100%;
+    }
+  }
+
+  h2 {
+    //Modifies the subtext options in the notifications tab
+    text-indent: 5rem;
+    @include mixins.breakpoint-down(small) {
+      text-indent: 0;
+    }
+  }
+}
+
+#textNumber {
+  @include mixins.breakpoint-down(small) {
+    text-align: center;
+  }
+}
+.settingsPageButton:active {
+  filter: invert(0) sepia(1);
+}
+
+.settingsContainer //The settings box where the options are displayed
+{
+  position: relative;
+  justify-content: space-between;
+  background-color: rgb(255, 255, 255);
+  border-radius: 25px;
+  padding: 1.5rem;
+  width: calc(100% - 13rem);
+  height: 35rem;
+
+  @include mixins.breakpoint-down(medium) {
+    width: 100%;
+    overflow: auto;
+  }
+  @include mixins.breakpoint-down(small) {
+    width: 100%;
+    overflow: auto;
+  }
+
+  h1 {
+    //Modifies settings options text
+    display: flex;
+    font-weight: bold;
+    font-size: 26px;
+    font-family: Arial;
+  }
+
+  h2 {
+    //Modifies settings options subtext
+    display: flex;
+    font-weight: 200;
+    font-size: 24px;
+    font-family: Arial;
+  }
+
+  button[id="delete"] {
+    //Changes Delete Account font color red
+    color: red;
+  }
+}
+
+.accountInfo {
+  //Modifies the account settings options
+  display: flex;
+  flex-direction: row;
+  //width: 100%;
+  //min-width: 100%;
+  //gap: 2rem;
+  @include mixins.breakpoint-down(large) {
+    flex-direction: column;
+    overflow: auto;
+    height: 100%;
+  }
+  @include mixins.breakpoint-down(medium) {
+    flex-direction: column;
+    overflow: auto;
+    height: auto;
+  }
+  @include mixins.breakpoint-down(small) {
+    flex-direction: column;
+    overflow: auto;
+    height: auto;
+  }
+
+  h1 {
+    //Modifies the h1 text in the accountInfo class
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+  input[type=text] //Modifies input boxes
+  {
+    display: inline-block;
+    max-width: 105%;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+    border: 1px solid #32543a;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
+}
+
+.changePass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.changeName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.del {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media only screen and (max-width: 770px) {
+  //Adds scrollbar when window screen is at a certain amount
+  .accountInfo,
+  .settingsNavBar {
+    overflow: auto;
+  }
+}
+
+.settingsNavLink {
+  display: flex;
+  flex: 33%;
+  align-items: center;
+  flex-grow: 1;
+  gap: 2rem;
+
+  @include mixins.breakpoint-down(large) {
+    display: none;
+  }
+
+  hr {
+    width: 100%;
+    max-width: 285px;
+    height: 1px;
+    background-color: #37433a;
+    @include mixins.breakpoint-down(xlarge) {
+      display: none;
+    }
+  }
+
+  img {
+    //Changes the little icons in the nav bar tabs
+    width: 30px;
+  }
+}
+
+.settingsNavBarCollapsed {
+  width: 100%;
+  padding: 1rem 0rem;
+  select {
+    cursor: pointer;
+    color: variables.$secondary-color;
+    width: 100%;
+  }
+  color: variables.$secondary-color;
+  @include mixins.breakpoint-up(xxlarge) {
+    display: none;
+  }
+  @include mixins.breakpoint-down(xlarge) {
+    display: none;
+  }
+  @include mixins.breakpoint-down(large) {
+    display: block;
+  }
+}
+
+.amountContainer {
+  display: flex;
+}
+
+//SCSS for Toggle Slider
+.switchLabel {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 65px;
+  height: 36px;
+  background: variables.$secondary-color;
+  border: 3px solid #fff;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.switchLabel:after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 21px;
+  height: 21px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + .switchLabel {
+  background-color: variables.$golden;
+  transition: 0.3s ease-in-out;
+}
+
+input:checked + .switchLabel:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+} //end toggle scss
+
+.logoutLink {
+  position: absolute;
+  bottom: 2.5%;
+  left: 12%;
+  @include mixins.breakpoint-down(small) {
+    // bottom: 10%;
+  }
+}

@@ -1,0 +1,10 @@
+@use "../../../styles/variables.scss";
+@use "../../../styles/mixins.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+}

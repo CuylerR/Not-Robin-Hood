@@ -1,0 +1,72 @@
+@use "../styles//variables.scss";
+
+@mixin boxShadow() {
+  box-shadow: 3px 12px 18px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 3px 12px 18px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 3px 12px 18px 0px rgba(0, 0, 0, 0.75);
+}
+
+//* ======================== Button Mixin ========================
+
+@mixin button {
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: variables.$font-regular;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.17);
+  border-radius: 25px;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    background-color: variables.$secondary-color;
+  }
+}
+
+//* ======================== Breakpoints Mixin ========================
+
+//? MIN-WIDTH
+
+//! ======= 640px, 1024px, 1400px ========
+$breakpoints-up: (
+  "medium": "40em",
+  "large": "64em",
+  "xlarge": "87.5em",
+  "xxlarge": "89.375em",
+);
+
+//? MAX-WIDTH
+
+//! ===== 639px, 1023px, 1399px, 1430px ======
+$breakpoints-down: (
+  "xs": "33.75em",
+  "small": "39.9375em",
+  //639px
+  "medium": "63.9375em",
+  //1,023px
+  "large": "75.4375em",
+  //1,207px
+  "xlarge": "89.375em",
+  //1,430px
+  "xxxl": "95rem",
+  // 1,520px
+);
+
+//?  apply breakpoint for an element with min-width, where size mentioned about in the MIN-WIDTH COMMENT
+
+@mixin breakpoint-up($size) {
+  @media (min-width: map-get($breakpoints-up, $size)) {
+    @content;
+  }
+}
+
+//?  apply breakpoint for an element with max-width, where size mentioned about in the MIN-WIDTH COMMENT
+
+@mixin breakpoint-down($size) {
+  @media (max-width: map-get($breakpoints-down, $size)) {
+    @content;
+  }
+}

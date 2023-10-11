@@ -12,17 +12,15 @@
     font-weight: variables.$font-bold;
     font-size: 24px;
     margin: 20px 0;
-    span {
-      position: absolute;
-      top: -10px;
-      right: 90px;
+    &::after {
+      content: "USD";
+      padding-left: 0.5rem;
       font-size: 18px;
       font-weight: variables.$font-regular;
     }
   }
   .results {
     margin-top: 1rem;
-    color: #2ab795;
     font-size: 18px;
     img {
       max-width: 3rem;
@@ -33,6 +31,9 @@
       color: #fff;
       font-size: 1rem;
     }
+  }
+  &.dark-mode {
+    background-color: #0b1615;
   }
 }
 

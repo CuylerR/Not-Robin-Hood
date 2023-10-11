@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // IMPORTING REACT-ROUTER COMPONENTS
 import {
@@ -21,61 +21,75 @@ import { publicRoutes } from "../../routes/routes";
 // IMPORTING STYLES FROM APP ROUTER STYLES
 import styles from "./AppRouter.module.scss";
 import NotificationPopUp from "../UI/NotificationPopUp/NotificationPopUp";
+import PersistLogin from "../PersistLogin/PersistLogin";
+import RequireAuth from "../RequireAuth/RequireAuth";
+// Dark Mode
+import { useSelector } from 'react-redux';
+import { selectDarkMode } from '../../redux/slices/darkModeSlice.js';
 
 const AppRouter = () => {
-  // TEMPORARY VARIABLE TO HANDLE AUTHORIZATION, FOR PRIVATE ROUTES PURPOSE ONLY
-  const auth = {
-    token: true,
-  };
+
+  // Dark Mode Theme
+  const darkModeTheme = useSelector(selectDarkMode);
+  // When Settings page is rendered, we will set our localstorage "darkMode": false by default;
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkModeTheme);
+  }, [darkModeTheme]);
 
   return (
     <>
       <Router>
         <Routes>
-          {/* RENDERING PRIVATE ROUTES IF USER AUTHORIZED */}
-          {auth.token ? (
-            <>
-              {/* PRIVATE ROUTES LAYOUT, An <Outlet> should be used in parent 
+          {/* RENDERING PRIVATE ROUTES IF USER AUTHORIZED */}(
+          <>
+            {/* PRIVATE ROUTES LAYOUT, An <Outlet> should be used in parent 
               route elements to render their child route elements. This allows 
               nested UI to show up when child routes are rendered. */}
-              <Route
-                element={
-                  <div className={styles.wrapper}>
-                    <Sidebar />
-                    <main className={styles.mainSection}>
-                      <TopNav />
-                      <Outlet />
-                    </main>
-                  </div>
-                }
-              >
-                <Route path="/" element={<Navigate to="/account" replace />} />
-                {privateRoutes.map((route) => (
-                  <Route
-                    key={route.path}
-                    path={route.path}
-                    element={<route.element />}
-                  />
-                ))}
-                <Route path="/notifications" element={<NotificationPopUp />} />
-              </Route>
-              <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<NotFound />} />
-            </>
-          ) : (
-            // PUBLIC ROUTES
-            <>
-              {publicRoutes.map((route) => (
+            <Route element={<PersistLogin />}>
+              <Route element={<RequireAuth />}>
                 <Route
-                  key={route.path}
-                  path={route.path}
-                  element={<route.element />}
-                />
-              ))}
-              <Route path="/" element={<Navigate to="/login" replace />} />
-              <Route path="*" element={<NotFound />} />
-            </>
-          )}
+                  path="/"
+                  element={
+                    <div className={styles.wrapper}>
+                      <Sidebar />
+                      <main className={`${styles.mainSection} ${darkModeTheme ? styles['dark-mode'] : ''}`}>
+                        <TopNav />
+                        <Outlet />
+                      </main>
+                    </div>
+                  }
+                >
+                  <Route
+                    path="/"
+                    element={<Navigate to="/account" replace />}
+                  />
+                  {privateRoutes.map((route) => (
+                    <Route
+                      key={route.path}
+                      path={route.path}
+                      element={<route.element />}
+                    />
+                  ))}
+                </Route>
+                <Route path="/notifications" element={<NotificationPopUp />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Route>
+          </>
+          ) ( // PUBLIC ROUTES
+          <>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            {publicRoutes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={<route.element />}
+              />
+            ))}
+            <Route path="*" element={<NotFound />} />
+          </>
+          )
         </Routes>
       </Router>
     </>

@@ -13,6 +13,9 @@
   // font-size: 25px;
   font-weight: variables.$font-regular;
   // width: 100%;
+  &.dark-mode {
+    background-color: #5C807B;
+  }
   @include mixins.breakpoint-down(small) {
     background-color: #d5e3e1;
     max-width: 99%;
@@ -52,6 +55,10 @@
     font-size: 15px;
     font-weight: variables.$font-regular;
   }
+  &.dark-mode {
+    background-color: #333333;
+    color: #fff;
+  }
 }
 
 .ctaSection {
@@ -77,16 +84,21 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  &.dark-mode {
+    color: #fff;
+  }
 }
 
 .orders {
   background: #ffffff;
   border-radius: 25px;
+  max-height: 14.125rem;
   width: 100%;
-  padding: 1rem;
+  padding: 1.5rem;
   flex: 1;
   font-size: 25px;
   font-weight: variables.$font-regular;
+  overflow-y: auto;
   @include mixins.breakpoint-down(small) {
     padding: 1rem 2rem;
     width: 100%;
@@ -96,5 +108,9 @@
     margin: 0.5rem 0rem;
     font-size: 15px;
     font-weight: variables.$font-regular;
+  }
+  &.dark-mode {
+    background-color: #333333;
+    color: #fff;
   }
 }

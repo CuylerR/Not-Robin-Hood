@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./BurgerMenu.module.scss";
@@ -10,17 +10,31 @@ import notification from "../../../assets/icons/bell-icon.svg";
 import profile from "../../../assets/icons/profile.svg";
 import AddIcon from "../../../assets/icons/plus-icon.svg";
 import ShareIcon from "../../../assets/icons/share.svg";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/slices/auth/authSlice";
+import {
+  useGetNotificationsQuery,
+  useGetUserByIdQuery,
+} from "../../../redux/slices/user/userApiSlice";
+import Loading from "../Loading/Loading";
+import { selectDarkMode } from './../../../redux/slices/darkModeSlice';
 
 const BurgerMenu = ({ showProfile, notificationsHandler, addFundsHandler }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const darkModeTheme = useSelector(selectDarkMode);
+  useEffect(() => {localStorage.setItem("darkMode", darkModeTheme);}, [darkModeTheme]);  // When Settings page is rendered, we will set our localstorage "darkMode": false by default;
 
+  const [isOpen, setIsOpen] = useState(false);
+  const currentUser = useSelector(selectCurrentUser);
+  const { data: user, isLoading, isSuccess } = useGetUserByIdQuery(currentUser);
+  const { data: notifications } = useGetNotificationsQuery(currentUser);
+  const username = isLoading ? <Loading /> : user.map((item) => item.name);
   const burgerMenuHandler = () => {
     setIsOpen((isOpen) => !isOpen);
   };
   return (
     <>
       {isOpen ? (
-        <div className={styles.burgerMenuList}>
+        <div className={`${styles.burgerMenuList} ${darkModeTheme ? styles["dark-mode"] : ""}`}>
           {/* BUY / PORTFOLIO BUTTON SECTION */}
           <section className={styles.cta}>
             <Link to="/markets" className={globalStyles.buyButton}>
@@ -36,19 +50,21 @@ const BurgerMenu = ({ showProfile, notificationsHandler, addFundsHandler }) => {
           <section className={styles.profile}>
             {" "}
             <button
-              onClick={notificationsHandler}
-              className={globalStyles.notificationButton}
-              id="notifications"
-            >
-              <img src={notification} alt="notification" />
-              <span className={styles.notifications}>6</span>
-            </button>
+                onClick={notificationsHandler}
+                className={`${globalStyles.notificationButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}
+                id="notifications"
+              >
+                <img src={notification} alt="notification" />
+                <span className={`${styles.notifications} ${darkModeTheme ? styles["dark-mode"] : ""}`}>
+                  {notifications?.length}
+                </span>
+              </button>
             <div className={styles.info}>
-              <h4>Aaron Smith</h4>
+              <h4>{username}</h4>
               <img src={profile} alt="profile" />
             </div>
             <div className={styles.profileCta}>
-              <button className={globalStyles.shareButton}>
+              <button className={`${globalStyles.shareButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}>
                 <img src={ShareIcon} alt="Share" />
                 Share Profile
               </button>

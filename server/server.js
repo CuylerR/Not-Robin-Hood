@@ -1,64 +1,46 @@
 import express from "express";
-import path from "path";
 import dotenv from "dotenv";
-import mysql from "mysql2/promise";
 import cors from "cors";
+import { corsOptions } from "./config/corsOptions.js";
+import { credentials } from "./middleware/credentials.js";
+import verifyJWT from "./middleware/verifyJWT.js";
+import cookieParser from "cookie-parser";
+import router from "./routes/root.js";
+import userRouter from "./routes/user.js";
 
-// FOR WORKING WITH ENVIRONMENT VARIABLES
+// Working with env files
 dotenv.config();
 
-// CONNECTION TO OUR DATABASE
-const connection = await mysql.createConnection(process.env.DATABASE_URL);
-console.log("Connected to PlanetScale!");
-
+// Setting our server's port
 const port = process.env.PORT || 5500;
 
-// FRAMEWORK WE WILL USE FOR BUILDING OUR API
+// Initializing our server by using express framework
 const app = express();
 
-app.use(cors());
+// Handling options credentials check - before CORS!
+// and fetching cookies credentials requirement
+app.use(credentials);
+app.use(cors(corsOptions));
+
+// Parsing incoming requests with JSON payloads
+app.use(express.json());
+
+// Middleware for parsing Cookies
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.json("WELCOME TO HOBIN ROOD APP SERVER");
+  res.json(`WELCOME TO HOBIN ROOD REST API`);
 });
 
-//  GET REQUEST TO DISPLAY BALANCE
-app.get("/balance", async (req, res) => {
-  try {
-    const query = "SELECT balance FROM Users;";
-    const [rows] = await connection.query(query);
-    res.json(rows);
-  } catch (err) {
-    console.log(err);
-  }
-});
+// Routes
+app.use("/api", router);
 
-app.get("/users", async (req, res) => {
-  try {
-    const query = "SELECT * FROM Users";
-    const [rows] = await connection.query(query);
-    res.json(rows);
-  } catch (err) {
-    console.log(err);
-  }
-});
+// Protected requests by JWT verification middleware *** PROTECTED ENDPOINTS
+app.use(verifyJWT);
 
-// PUT REQUEST TO MODIFY OUR USER TABLE
+app.use("/user", userRouter);
 
-app.patch("/update/", (req, res) => {
-  const data = [1000000, "Neil", 1];
-  connection.query(
-    "UPDATE Users SET Balance = ?, Name=? WHERE id=?",
-    data,
-    (err, res) => {
-      if (err) {
-        res.send("ERROR");
-      } else {
-        res.send(res);
-      }
-    }
-  );
-});
+
 
 // TO CHECK IF OUR APP US RUNNING AND ON WHICH PORT
 app.listen(port, () => console.log(`Server is running on port ${port}`));

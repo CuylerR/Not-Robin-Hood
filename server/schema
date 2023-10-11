@@ -1,0 +1,70 @@
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  balance DECIMAL(15,2) NOT NULL,
+  phone VARCHAR(255) NOT NULL,
+  refreshToken JSON NOT NULL DEFAULT '[]'
+);
+
+CREATE TABLE user_settings (
+  user_id INT NOT NULL,
+  darkMode BOOLEAN NOT NULL,
+  notifications BOOLEAN NOT NULL,
+  textNotifications BOOLEAN NOT NULL,
+  PRIMARY KEY (user_id)
+);
+
+CREATE TABLE user_notifications (
+  user_id INT NOT NULL,
+  date TIMESTAMP NOT NULL,
+  message TEXT NOT NULL
+);
+
+CREATE TABLE user_portfolio (
+  user_id INT NOT NULL,
+  buyingPower FLOAT NOT NULL,
+  stocksPower FLOAT NOT NULL
+);
+
+CREATE TABLE user_portfolio_stocks (
+  user_id INT NOT NULL,
+  id VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  symbol VARCHAR(255) NOT NULL,
+  stockPrice FLOAT NOT NULL,
+  share INT NOT NULL,
+  totalCost FLOAT NOT NULL,
+  averageCost FLOAT NOT NULL,
+  totalReturn FLOAT NOT NULL,
+  equity FLOAT NOT NULL,
+  purchased_at DATE NULL
+);
+
+CREATE TABLE user_portfolio_orders (
+  user_id INT NOT NULL,
+  id VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  amount INT NOT NULL,
+  date TIMESTAMP NOT NULL
+);
+
+CREATE TABLE user_asset_value (
+  user_id INT NOT NULL,
+  value INT NOT NULL,
+  condition VARCHAR(255) NOT NULL,
+  percentage INT NOT NULL
+);
+
+
+CREATE TABLE user_transactions (
+  user_id INT NOT NULL,
+  id VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  amount FLOAT NOT NULL,
+  qty INT NOT NULL,
+  price FLOAT NOT NULL,
+  description TEXT NOT NULL,
+  date DATE NULL
+);

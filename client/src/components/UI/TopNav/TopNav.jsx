@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TopNav.module.scss";
 import globalStyles from "../../../styles/main.module.scss";
 import cart from "../../../assets/icons/shopping-cart.svg";
@@ -13,11 +13,29 @@ import AddIcon from "../../../assets/icons/plus-icon.svg";
 import ShareIcon from "../../../assets/icons/share.svg";
 import AddFunds from "../AddFunds/AddFunds";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import {
+  useGetUserByIdQuery,
+  useGetNotificationsQuery,
+} from "../../../redux/slices/user/userApiSlice";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../redux/slices/auth/authSlice";
+import { selectDarkMode } from './../../../redux/slices/darkModeSlice';
+import Loading from "../Loading/Loading";
 
 const TopNav = () => {
+  const darkModeTheme = useSelector(selectDarkMode);
+  useEffect(() => {localStorage.setItem("darkMode", darkModeTheme);}, [darkModeTheme]);  // When Settings page is rendered, we will set our localstorage "darkMode": false by default;
+
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showFundsPopup, setShowFundsPopup] = useState(false);
+  const currentUser = useSelector(selectCurrentUser);
+  //* Getting User's Name
+
+  const { data: user, isLoading, isSuccess } = useGetUserByIdQuery(currentUser);
+  const { data: notifications } = useGetNotificationsQuery(currentUser);
+
+  const username = isLoading ? <Loading /> : user.map((item) => item.name);
 
   // PROFILE HANDLER
   const profileHandler = () => {
@@ -52,15 +70,15 @@ const TopNav = () => {
         {/* SEARCH SECTION */}
         <section className={styles.search}>
           {/* Search Component */}
-          <Search placeholder="Search for market" />
+          <Search placeholder="Search Market" />
         </section>
         {/* BUY / PORTFOLIO BUTTON SECTION */}
         <section className={styles.cta}>
-          <Link to="/markets" className={globalStyles.buyButton}>
+          <Link to="/markets" className={`${globalStyles.buyButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}>
             <img src={cart} alt="cart" />
             Buy
           </Link>
-          <Link to="/portfolio" className={globalStyles.portfolioButton}>
+          <Link to="/portfolio" className={`${globalStyles.portfolioButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}>
             <img src={portfolio} alt="Portfolio" />
             Portfolio
           </Link>
@@ -72,15 +90,17 @@ const TopNav = () => {
               {" "}
               <button
                 onClick={notificationsHandler}
-                className={globalStyles.notificationButton}
+                className={`${globalStyles.notificationButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}
                 id="notifications"
               >
                 <img src={notification} alt="notification" />
-                <span className={styles.notifications}>6</span>
+                <span className={`${styles.notifications} ${darkModeTheme ? styles["dark-mode"] : ""}`}>
+                  {notifications?.length}
+                </span>
               </button>
               <button
                 onClick={profileHandler}
-                className={globalStyles.profileButton}
+                className={`${globalStyles.profileButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}
                 id="profile"
               >
                 <img src={profile} alt="profile" />
@@ -88,19 +108,19 @@ const TopNav = () => {
             </>
           )}
           {showProfile && (
-            <div onClick={profileHandler} className={styles.profileMenu}>
+            <div onClick={profileHandler} className={`${styles.profileMenu} ${darkModeTheme ? styles["dark-mode"] : ""}`}>
               <div className={styles.info}>
-                <h4>Aaron Smith</h4>
+                <h4>{isLoading ? <Loading /> : username}</h4>
                 <img src={profile} alt="profile" />
               </div>
               <div className={styles.profileCta}>
-                <button className={globalStyles.shareButton}>
+                <button className={`${globalStyles.shareButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}>
                   <img src={ShareIcon} alt="Share" />
                   Share Profile
                 </button>
                 <button
                   onClick={addFundsHandler}
-                  className={globalStyles.AddFundsProfileButton}
+                  className={`${globalStyles.AddFundsProfileButton} ${darkModeTheme ? globalStyles["dark-mode"] : ""}`}
                 >
                   <img src={AddIcon} alt="Add" />
                   Add Funds
@@ -119,7 +139,11 @@ const TopNav = () => {
       </div>
       {showNotifications && (
         <Popup name="notifications" toggle={popUpHandler}>
-          <NotificationPopUp name="Aaron" notifications="6" />
+          <NotificationPopUp
+            name={isLoading ? <Loading /> : username}
+            notifications={notifications?.length}
+            data={notifications}
+          />
         </Popup>
       )}
       {showFundsPopup && (

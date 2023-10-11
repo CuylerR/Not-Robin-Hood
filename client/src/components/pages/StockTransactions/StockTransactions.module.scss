@@ -27,6 +27,9 @@
 .title {
   font-size: 20px;
   font-weight: variables.$font-bold;
+  &.dark-mode {
+    color: #D5E3E1;
+  }
 }
 
 .transactions {
@@ -42,6 +45,9 @@
   // &::-webkit-scrollbar {
   //   display: none;
   // }
+  &.dark-mode {
+    background-color: #393d38;
+  }
 }
 
 .transactionsList {
@@ -55,4 +61,8 @@
   display: flex;
   flex-grow: 0;
   flex-basis: 10%;
+}
+
+.empty {
+  align-self: center;
 }

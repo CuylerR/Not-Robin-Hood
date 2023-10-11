@@ -1,93 +1,55 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./StockTransactions.module.scss";
 import TopNav from "../../UI/TopNav/TopNav";
 import Sidebar from "../../UI/Sidebar/Sidebar";
 import Hero from "../../UI/Hero/Hero";
 import Filter from "../../UI/Filter/Filter";
 import Stock from "../../UI/Stock/Stock";
+import { useGetStockTransactionsQuery } from "../../../redux/slices/user/userApiSlice";
+import { useSelector } from 'react-redux';
+import { selectDarkMode } from './../../../redux/slices/darkModeSlice';
+import { selectCurrentUser } from "../../../redux/slices/auth/authSlice";
 
 const StockTransactions = () => {
-  const data = [
-    {
-      name: "BNB-USD",
-      price: "$35",
-      info: "Very expensive stock",
-    },
-    {
-      name: "Potrero",
-      price: "$23",
-      info: "Old stock",
-    },
-    {
-      name: "Doge",
-      price: "$35",
-      info: "Grandma's stock",
-    },
-    {
-      name: "P&G",
-      price: "$35",
-      info: "Very expensive stock",
-    },
-    {
-      name: "Alameda",
-      price: "$300",
-      info: "Very cheap stock",
-    },
-    {
-      name: "BayBridge",
-      price: "$349",
-      info: "Interesting stock",
-    },
-    {
-      name: "BayBridge2",
-      price: "$349",
-      info: "Interesting stock",
-    },
-    {
-      name: "BayBridge3",
-      price: "$349",
-      info: "Interesting stock",
-    },
-    {
-      name: "BayBridge4",
-      price: "$349",
-      info: "Interesting stock",
-    },
-  ];
+    {/* Dark Mode Theme*/}
+    const darkModeTheme = useSelector(selectDarkMode);
+    // When Settings page is rendered, we will set our localstorage "darkMode": false by default;
+    useEffect(() => {localStorage.setItem("darkMode", darkModeTheme);}, [darkModeTheme]);
+    {/* End Dark Mode Theme*/}
+
+  const currentUser = useSelector(selectCurrentUser);
+
+  const { data: transactions } = useGetStockTransactionsQuery(currentUser);
+
   return (
     <>
-      {/* <div className={styles.wrapper}> */}
-      {/* Sidebar Section */}
-      {/* <Sidebar /> */}
-      {/* Nav/Hero Section */}
-      {/* <main className={styles.mainSection}> */}
-      {/* Top Navigation */}
-      {/* <TopNav /> */}
-      {/* Hero Section */}
       <Hero>
         <section className={styles.titleSection}>
-          <h4 className={styles.title}>Recent Transactions</h4>
+          <h4 className={`${styles.title} ${darkModeTheme ? styles["dark-mode"] : ""}`}>Recent Transactions</h4>
         </section>
-        <section className={styles.transactions}>
-          <ul className={styles.transactionsList}>
-            {data.map((item) => {
-              return (
-                <Stock
-                  key={item.name}
-                  name={item.name}
-                  price={item.price}
-                  info={item.info}
-                />
-              );
-            })}
+        <section className={`${styles.transactions} ${darkModeTheme ? styles["dark-mode"] : ""}`}>
+          <ul
+            className={`${styles.transactionsList} ${darkModeTheme ? styles["dark-mode"] : ""}`}
+            style={{ justifyContent: transactions?.length < 1 ? "center" : "" }}
+          >
+            {transactions?.length < 1 ? (
+              <p className={styles.empty}>No transactions found</p>
+            ) : (
+              transactions?.map((item) => {
+                return (
+                  <Stock
+                    key={item.id}
+                    name={item.name}
+                    price={item.price}
+                    info={item.description}
+                    date={item.date}
+                  />
+                );
+              }).reverse()
+            )}
           </ul>
         </section>
-        <section className={styles.filter}>
-          <Filter />
-        </section>
       </Hero>
-      {/* </main> */}
-      {/* </div> */}
     </>
   );
 };

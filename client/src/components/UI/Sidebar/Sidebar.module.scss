@@ -16,6 +16,13 @@
   @include mixins.breakpoint-down(medium) {
     display: none;
   }
+
+  &.dark-mode {
+    background-color: #3A514E;
+    img {
+      filter: invert(1) contrast(200%) saturate(0);
+    }
+  }
 }
 .toggle {
   position: absolute;
@@ -50,6 +57,12 @@
   flex-shrink: 0;
   @include mixins.breakpoint-down(medium) {
     display: none;
+  }
+  &.dark-mode {
+    background-color: #3A514E;
+    img {
+      filter: invert(1) contrast(200%) saturate(0);
+    }
   }
 
   .toggle {
